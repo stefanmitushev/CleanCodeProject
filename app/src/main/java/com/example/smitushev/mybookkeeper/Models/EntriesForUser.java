@@ -10,7 +10,7 @@ public class EntriesForUser {
         this.userId = userId;
         this.entryId = entryId;
     }
-
+    
     public Long getId() {
         return id;
     }
