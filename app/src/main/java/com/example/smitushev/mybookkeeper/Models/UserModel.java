@@ -1,19 +1,15 @@
 package com.example.smitushev.mybookkeeper.Models;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class UserModel {
     @SerializedName("id")
-    @Expose
     private Long id;
 
     @SerializedName("username")
-    @Expose
     private String userName;
 
     @SerializedName("password")
-    @Expose
     private String password;
 
     public UserModel(Long id, String userName, String password){

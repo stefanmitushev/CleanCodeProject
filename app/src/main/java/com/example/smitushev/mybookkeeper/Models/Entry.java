@@ -1,9 +1,18 @@
 package com.example.smitushev.mybookkeeper.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Entry {
+    @SerializedName("id")
     private Long id;
+
+    @SerializedName("description")
     private String description;
+
+    @SerializedName("comment")
     private String comment;
+
+    @SerializedName("value")
     private Double value;
 
     public Entry(Long id, String description, String comment, Double value) {
