@@ -1,7 +1,10 @@
 package com.example.smitushev.mybookkeeper.WebServices;
 
+import com.example.smitushev.mybookkeeper.Models.Entry;
 import com.example.smitushev.mybookkeeper.Models.TokenModel;
 import com.example.smitushev.mybookkeeper.Models.UserModel;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -21,9 +24,9 @@ public interface RestClient {
             "Accept: application/json",
     })
 
-// ************************************************************************************************************************
-// User Controller requests
-// ************************************************************************************************************************
+    // ************************************************************************************************************************
+    // User Controller requests
+    // ************************************************************************************************************************
 
     @POST("/users/register")
     Call<UserModel> register(@Body UserModel user);
@@ -43,132 +46,16 @@ public interface RestClient {
             @Header("Authorization") String authorization
     );
 
-    /*
-    @FormUrlEncoded
-    @POST("/users/register")
-    Call<UserModel> register(@Field("user") String user);
-
-    @FormUrlEncoded
-    @POST("/oauth/token")
-    Call<TokenModel> token(
-            @Field("grant_type") String grantType,
-            @Field("username") String username,
-            @Field("password") String password,
-            @Header("Authorization") String authorization
-    );
-
-    @GET("/users/username")
-    Call<UserModel> username(@Header("Authorization") String authHeader);
-
-    @FormUrlEncoded
-    @POST("/users/getUser")
-    Call<UserModel> getUser(@Field("username") String username, @Header("Authorization") String authHeader);
-
-    @FormUrlEncoded
-    @POST("/users/updatepassword")
-    Call<UserModel> updatepassword(@Field("oldpassword") String oldpassword, @Field("newpassword") String newpassword, @Header("Authorization") String authHeader);
-
-    @FormUrlEncoded
-    @POST("/users/follow")
-    Call<Boolean> follow(@Query("username") String username, @Header("Authentication") String authHeader);
-
-    @FormUrlEncoded
-    @POST("/users/thanks")
-    Call<Boolean> thanks(@Query("username") String username, @Header("Authorization") String authHeader);
-
-
     // ************************************************************************************************************************
-// Category Controller requests
-// ************************************************************************************************************************
-    @GET("/categories/getCategories")
-    Call<List<CategoryModel>> getCategories(@Header("Authorization") String authHeader);
-
-    @GET("/categories/getCategory")
-    Call<CategoryModel> getCategory(@Query("title") String title, @Header("Authorization") String authHeader);
-
-
+    // Entry Controller requests
     // ************************************************************************************************************************
-// Threads Controller requests
-// ************************************************************************************************************************
-    @GET("/threads/getThreads")
-    Call<List<ThreadModel>> getThreads(@Query("page") Integer page, @Query("count") Integer count, @Header("Authorization") String authHeader);
+    @POST("/entries/add")
+    Call<Entry> addEntry(@Body Entry entry);
 
-    //Only test
-    @GET("/threads/getThread")
-    Call<ThreadModel> getThread(@Query("title") String title, @Header("Authorization") String authHeader);
+    @POST("/entries/type/user/{user_id}")
+    Call<List<Entry>> getAllEntriesByUserWithType(@Path("user_id") Long user_id,@Field("type") Boolean type,@Field("page") Integer page,@Field("count") Integer count);
 
-    @GET("/threads/getThreadsInCategory")
-    Call<List<ThreadModel>> getThreadsInCategory(@Query("title") String title, @Query("page") int page, @Query("count") int count, @Header("Authorization") String authHeader);
-
-    @FormUrlEncoded
-    @POST("/threads/getThreadById")
-    Call<ThreadModel> getThreadById(@Field("id") Long id, @Header("Authorization") String authHeader);
-
-    @FormUrlEncoded
-    @POST("/threads/createThread/{category}")
-    Call<ThreadModel> createThread(@Field("thread") String thread, @Path("category") String category, @Header("Authorization") String authHeader);
-
-    //TODO
-    @FormUrlEncoded
-    @POST("/threads/deleteThread")
-    Call<Boolean> deleteThread(@Field("id") Long id, @Header("Authorization") String authHeader);
-
-    @FormUrlEncoded
-    @POST("/threads/getPopularThreadsAfterDate")
-    Call<List<ThreadModel>> getPopularThreadsAfterDate(
-            @Field("date") String date,
-            @Field("page") Integer page,
-            @Field("count") Integer count,
-            @Header("Authorization") String authHeader
-    );
-
-    @FormUrlEncoded
-    @POST("/threads/getThreadsAfterDate")
-    Call<List<ThreadModel>> getThreadsAfterDate(
-            @Field("date") String date,
-            @Field("page") Integer page,
-            @Field("count") Integer count,
-            @Header("Authorization") String authHeader
-    );
-
-    @FormUrlEncoded
-    @POST("/threads/getThreadsByUser")
-    Call<List<ThreadModel>> getThreadsByUser(@Field("username") String user, @Header("Authorization") String authHeader);
-
-    @FormUrlEncoded
-    @POST("/threads/getThreadsSortedByDate")
-    Call<List<ThreadModel>> getThreadsSortedByDate(@Field("page") Integer page, @Field("count") Integer count, @Header("Authorization") String authHeader);
-
-    //TODO
-    @FormUrlEncoded
-    @POST("/threads/updateThread")
-    Call<ThreadModel> updateThread(
-            @Field("id") Long id
-
-    );
-
-    @FormUrlEncoded
-    @POST("threads/view")
-    void view(@Header("Authorization") String authHeader);
-
-
-// ************************************************************************************************************************
-// Comment Controller requests
-// ************************************************************************************************************************
-
-    @GET("/comments/comment/{id}")
-    Call<List<CommentModel>> retrieveAllSubommentsInComment(@Path("id") int id, @Header("Authorization") String authHeader);
-
-    @FormUrlEncoded
-    @POST("/comments/comment/{id}")
-    Call<CommentModel> addCommentInComment(@Path("id") int id, @Field("comment") String comment, @Header("Authorization") String authHeader);
-
-    @FormUrlEncoded
-    @POST("/comments/thread/{id}")
-    Call<CommentModel> addCommentInThread(@Path("id") int id, @Field("comment") String comment, @Header("Authorization") String authHeader);
-
-    @GET("/comments/thread/{id}")
-    Call<List<CommentModel>> retrieveAllCommentsInThread(@Path("id") int id, @Header("Authorization") String authHeader);
-    */
+    @POST("/entries/sum/{type}")
+    Call<Double> getSumOfAllEntriesWithType(@Path("type")Boolean type);
 }
 

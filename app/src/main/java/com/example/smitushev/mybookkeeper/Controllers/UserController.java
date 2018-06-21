@@ -1,14 +1,6 @@
 package com.example.smitushev.mybookkeeper.Controllers;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 
-import com.example.smitushev.mybookkeeper.Activities.Base.OnTokenListener;
-import com.example.smitushev.mybookkeeper.Activities.Base.UserAccountManager;
 import com.example.smitushev.mybookkeeper.Models.TokenModel;
 import com.example.smitushev.mybookkeeper.Models.UserModel;
 
@@ -34,11 +26,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserController {
     private Retrofit retrofit;
     private String API_BASE_URL = "http://87.98.217.10:4444/";
-    private AccountManager accountManager;
-    private UserAccountManager userAccountManager;
-    private OnTokenListener onTokenListener;
+    private RestClient restClient;
 
-    public UserController(SharedPreferences sharedPreferences) {
+
+    public UserController() {
 
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
@@ -55,14 +46,14 @@ public class UserController {
                         .baseUrl(API_BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create());
         retrofit = builder.client(client).build();
+        restClient = retrofit.create(RestClient.class);
 
-        this.userAccountManager = new UserAccountManager(sharedPreferences);
+
     }
 
     // REST Requests
     public void register(UserModel userModel, final MyCallback<UserModel> myCallback){
-        RestClient client = retrofit.create(RestClient.class);
-        Call<UserModel> userModelCall = client.register(userModel);
+        Call<UserModel> userModelCall = restClient.register(userModel);
         userModelCall.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -70,6 +61,13 @@ public class UserController {
                     myCallback.onResponse(response.body());
                 }else{
                     System.out.println("Error while registering: " + response.errorBody().toString());
+                    try {
+                        myCallback.onError(new Throwable(response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        myCallback.onError(e);
+                    }
+
                 }
             }
 
@@ -81,10 +79,9 @@ public class UserController {
     }
 
     public void getCurrentLoggedUser(String token, final MyCallback<UserModel> myCallback){
-        RestClient client = retrofit.create(RestClient.class);
         String authorization = "Bearer " + token;
 
-        Call<UserModel> userModelCall = client.getLoggedUser(authorization);
+        Call<UserModel> userModelCall = restClient.getLoggedUser(authorization);
         userModelCall.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -108,10 +105,9 @@ public class UserController {
     }
 
     public void getUserById(String token, Long id, final MyCallback<UserModel> myCallback){
-        RestClient client = retrofit.create(RestClient.class);
         String authorization = "Bearer " + token;
 
-        Call<UserModel> userModelCall = client.getUserById(authorization, id);
+        Call<UserModel> userModelCall = restClient.getUserById(authorization, id);
         userModelCall.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -135,11 +131,10 @@ public class UserController {
     }
 
     public void login(String userName, String password, final MyCallback<TokenModel> myCallback){
-        RestClient client = retrofit.create(RestClient.class);
         byte[] credentials = "debateabout:darko96".getBytes();
         String authorization = "Basic " + Base64Utils.encodeToString(credentials);
 
-        Call<TokenModel> tokenModelCall = client.provideToken("password", userName, password, authorization);
+        Call<TokenModel> tokenModelCall = restClient.provideToken("password", userName, password, authorization);
         tokenModelCall.enqueue(new Callback<TokenModel>() {
             @Override
             public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
@@ -160,50 +155,5 @@ public class UserController {
                 myCallback.onError(t);
             }
         });
-    }
-
-    //Utility methods
-    public AccountManager getAccountManager() {
-        return accountManager;
-    }
-
-    public void setAccountManager(AccountManager accountManager) {
-        this.accountManager = accountManager;
-    }
-
-    public Account getAccount(){
-        if(this.accountManager.getAccountsByType("com.mybookkeeper")[0] != null) {
-            return this.accountManager.getAccountsByType("com.mybookkeeper")[0];
-        }else{
-            return userAccountManager.getAccount();
-        }
-    }
-
-    public OnTokenListener getOnTokenListener() {
-        return onTokenListener;
-    }
-
-    public void setOnTokenListener(OnTokenListener onTokenListener) {
-        this.onTokenListener = onTokenListener;
-    }
-
-    public void getToken(final Activity activity){
-        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                String authToken = userAccountManager.getToken();
-                accountManager.setAuthToken(getAccount(),"Bearer",authToken);
-
-                return authToken;
-            }
-
-            @Override
-            protected void onPostExecute(String token) {
-                if(token != null){
-                    onTokenListener.onTokenAcquired(token);
-                }
-            }
-        };
-        task.execute();
     }
 }

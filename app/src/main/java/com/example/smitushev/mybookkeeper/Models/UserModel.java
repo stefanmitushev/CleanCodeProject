@@ -18,6 +18,11 @@ public class UserModel {
         this.password = password;
     }
 
+    public UserModel(String username,String password){
+        this.userName = username;
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }

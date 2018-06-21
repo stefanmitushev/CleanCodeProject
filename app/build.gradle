@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.example.smitushev.mybookkeeper"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -15,6 +15,25 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked" <<"-deprecation"
+    }
+
+    lintOptions {
+        disable 'Deprecation'
     }
 }
 
@@ -31,6 +50,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.7'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
 
 }
