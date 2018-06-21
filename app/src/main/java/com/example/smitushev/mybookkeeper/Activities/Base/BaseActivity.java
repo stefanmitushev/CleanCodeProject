@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.smitushev.mybookkeeper.App.BaseApplication;
+import com.example.smitushev.mybookkeeper.Controllers.EntryController;
 import com.example.smitushev.mybookkeeper.Controllers.UserController;
 
 @SuppressWarnings("deprecation")
@@ -26,5 +27,9 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void saveUserToken(String token){
         ((BaseApplication)getApplicationContext()).saveUserToken(token);
+    }
+
+    protected EntryController getEntryController(){
+        return ((BaseApplication) getApplicationContext()).getEntryController();
     }
 }

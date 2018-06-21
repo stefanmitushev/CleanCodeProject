@@ -14,6 +14,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Stefan96100 on 7/26/2017.
@@ -53,9 +54,12 @@ public interface RestClient {
     Call<Entry> addEntry(@Body Entry entry);
 
     @POST("/entries/type/user/{user_id}")
-    Call<List<Entry>> getAllEntriesByUserWithType(@Path("user_id") Long user_id,@Field("type") Boolean type,@Field("page") Integer page,@Field("count") Integer count);
+    Call<List<Entry>> getAllEntriesByUserWithType(@Path("user_id") Long user_id, @Query("type") Boolean type, @Query("page") Integer page, @Query("count") Integer count);
 
     @POST("/entries/sum/{type}")
     Call<Double> getSumOfAllEntriesWithType(@Path("type")Boolean type);
+
+    @POST("/entries/{type}")
+    Call<List<Entry>> getAllEntriesByCurrentUserWithType(@Path("type") Boolean type,@Query("page") Integer page, @Query("count") Integer count);
 }
 

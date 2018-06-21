@@ -9,10 +9,13 @@ import android.view.View;
 
 import com.example.smitushev.mybookkeeper.Activities.Account.LoginActivity;
 import com.example.smitushev.mybookkeeper.Activities.Base.BaseActivity;
+import com.example.smitushev.mybookkeeper.Models.Entry;
 import com.example.smitushev.mybookkeeper.Models.TokenModel;
 
 import com.example.smitushev.mybookkeeper.R;
 import com.example.smitushev.mybookkeeper.WebServices.MyCallback;
+
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
@@ -37,6 +40,61 @@ public class MainActivity extends BaseActivity {
             }
         });
         //userController.getCurrentLoggedUser();
+
+        getEntryController().getAllEntriesByUserWithType(3L, true, 0, 10, new MyCallback<List<Entry>>() {
+            @Override
+            public List<Entry> onResponse(List<Entry> response) {
+                System.out.println("Entries: " + response);
+                return null;
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                System.out.println("Error: " + error);
+            }
+        });
+
+        Entry entry = new Entry("Android Client","First Created",23.0,true);
+
+        getEntryController().addEntry(entry, new MyCallback<Entry>() {
+            @Override
+            public Entry onResponse(Entry response) {
+                System.out.println("Entry: " + response.getId());
+
+                return null;
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                System.out.println("Error: " + error);
+            }
+        });
+
+        getEntryController().getAllEntriesByCurrentUserWithType(true, 0, 20, new MyCallback<List<Entry>>() {
+            @Override
+            public List<Entry> onResponse(List<Entry> response) {
+                System.out.println("Entries: " + response);
+                return null;
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                System.out.println("Error: " + error);
+            }
+        });
+
+        getEntryController().getSumOfAllEntriesWithType(true, new MyCallback<Double>() {
+            @Override
+            public Double onResponse(Double response) {
+                System.out.println("Entries Sum: " + response);
+                return null;
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                System.out.println("Error: " + error);
+            }
+        });
     }
 
     @Override

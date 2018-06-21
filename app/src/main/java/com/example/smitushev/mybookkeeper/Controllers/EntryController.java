@@ -44,32 +44,6 @@ public class EntryController {
     }
 
     public void addEntry(Entry entry, final MyCallback<Entry> callback){
-        /*
-                RestClient client = retrofit.create(RestClient.class);
-        Call<UserModel> userModelCall = client.register(userModel);
-        userModelCall.enqueue(new Callback<UserModel>() {
-            @Override
-            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                if(response.isSuccessful()){
-                    myCallback.onResponse(response.body());
-                }else{
-                    System.out.println("Error while registering: " + response.errorBody().toString());
-                    try {
-                        myCallback.onError(new Throwable(response.errorBody().string()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        myCallback.onError(e);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {
-                myCallback.onError(t);
-            }
-        });
-         */
         Call<Entry> addEntryCall = restClient.addEntry(entry);
         addEntryCall.enqueue(new retrofit2.Callback<Entry>() {
             @Override
@@ -77,7 +51,6 @@ public class EntryController {
                 if(response.isSuccessful()){
                     callback.onResponse(response.body());
                 }else{
-                    System.out.println("Error while registering: " + response.errorBody().toString());
                     try {
                         callback.onError(new Throwable(response.errorBody().string()));
                     } catch (IOException e) {
@@ -103,7 +76,30 @@ public class EntryController {
                 if(response.isSuccessful()){
                     callback.onResponse(response.body());
                 }else{
-                    System.out.println("Error while registering: " + response.errorBody().toString());
+                    try {
+                        callback.onError(new Throwable(response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        callback.onError(e);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Entry>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+    public void getAllEntriesByCurrentUserWithType(Boolean type,Integer page, Integer count, final MyCallback<List<Entry>> callback){
+        Call<List<Entry>> entriesCall = restClient.getAllEntriesByCurrentUserWithType(type,page,count);
+        entriesCall.enqueue(new retrofit2.Callback<List<Entry>>() {
+            @Override
+            public void onResponse(Call<List<Entry>> call, Response<List<Entry>> response) {
+                if(response.isSuccessful()){
+                    callback.onResponse(response.body());
+                }else{
                     try {
                         callback.onError(new Throwable(response.errorBody().string()));
                     } catch (IOException e) {
@@ -131,7 +127,6 @@ public class EntryController {
                 if(response.isSuccessful()){
                     callback.onResponse(response.body());
                 }else{
-                    System.out.println("Error while registering: " + response.errorBody().toString());
                     try {
                         callback.onError(new Throwable(response.errorBody().string()));
                     } catch (IOException e) {

@@ -5,7 +5,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.smitushev.mybookkeeper.Controllers.EntryController;
 import com.example.smitushev.mybookkeeper.Controllers.UserController;
+import com.example.smitushev.mybookkeeper.Models.Entry;
 
 /**
  * Created on 6/21/18 by root.
@@ -18,6 +20,8 @@ public class BaseApplication extends Application {
     private SharedPreferences preferences;
 
     private UserController userController;
+
+    private EntryController entryController;
 
     private SharedPreferences getPreferences() {
         if (preferences == null) {
@@ -47,5 +51,13 @@ public class BaseApplication extends Application {
         }
 
         return this.userController;
+    }
+
+    public EntryController getEntryController(){
+        if(this.entryController == null){
+            this.entryController = new EntryController(getUserToken());
+        }
+
+        return this.entryController;
     }
 }
