@@ -18,4 +18,6 @@
         completions."
     </string>
     <string name="title_activity_add_entry">Create Entry</string>
+    <string name="title_activity_single_entry">Single Entry</string>
+    <string name="title_activity_entries">Entries</string>
 </resources>

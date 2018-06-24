@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name="com.anti.drama.mybookkeeper.App.BaseApplication"
+        android:name=".App.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="com.anti.drama.mybookkeeper.Activities.Entry.MainActivity"
+            android:name=".Activities.Entry.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,16 +32,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.anti.drama.mybookkeeper.Activities.Account.LoginActivity"
+            android:name=".Activities.Account.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.anti.drama.mybookkeeper.Activities.Account.SignupActivity"
+            android:name=".Activities.Account.SignupActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.anti.drama.mybookkeeper.Activities.Entry.AddEntryActivity"
+            android:name=".Activities.Entry.AddEntryActivity"
             android:label="@string/title_activity_add_entry"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.Entry.SingleEntryActivity"
+            android:label="@string/title_activity_single_entry"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.Entry.EntriesActivity"
+            android:label="@string/title_activity_entries"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

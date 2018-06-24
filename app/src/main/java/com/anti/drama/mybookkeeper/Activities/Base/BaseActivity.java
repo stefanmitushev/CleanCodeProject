@@ -18,18 +18,22 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected UserController getUserController(){
-        return ((BaseApplication) getApplicationContext()).getUserController();
+        return getBaseApplication().getUserController();
     }
 
     protected String getUserToken(){
-        return ((BaseApplication)getApplicationContext()).getUserToken();
+        return getBaseApplication().getUserToken();
     }
 
     protected void saveUserToken(String token){
-        ((BaseApplication)getApplicationContext()).saveUserToken(token);
+        getBaseApplication().saveUserToken(token);
     }
 
     protected EntryController getEntryController(){
-        return ((BaseApplication) getApplicationContext()).getEntryController();
+        return getBaseApplication().getEntryController();
+    }
+
+    private BaseApplication getBaseApplication(){
+        return ((BaseApplication) getApplicationContext());
     }
 }

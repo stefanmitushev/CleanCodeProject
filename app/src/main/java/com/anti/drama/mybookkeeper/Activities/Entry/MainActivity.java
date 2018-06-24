@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.anti.drama.mybookkeeper.Activities.Account.LoginActivity;
+import com.anti.drama.mybookkeeper.Activities.Base.AuthorizeActivity;
 import com.anti.drama.mybookkeeper.Activities.Base.BaseActivity;
 import com.anti.drama.mybookkeeper.Models.Entry;
 import com.anti.drama.mybookkeeper.Models.TokenModel;
@@ -15,7 +16,7 @@ import com.anti.drama.mybookkeeper.Models.TokenModel;
 import com.anti.drama.mybookkeeper.R;
 import com.anti.drama.mybookkeeper.WebServices.MyCallback;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AuthorizeActivity {
 
     private String authtoken;
     private TokenModel token;
@@ -110,13 +111,4 @@ public class MainActivity extends BaseActivity {
         startActivity(new Intent(this,AddEntryActivity.class));
     }
 
-    @Override
-    protected void onResume() {
-        if(getUserToken() == null){
-            startActivity(new Intent(this, LoginActivity.class));
-        }else if(getUserToken().equals("")){
-            startActivity(new Intent(this, LoginActivity.class));
-        }
-        super.onResume();
-    }
 }
