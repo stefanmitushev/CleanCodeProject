@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -61,5 +62,8 @@ public interface RestClient {
 
     @POST("/entries/{type}")
     Call<List<Entry>> getAllEntriesByCurrentUserWithType(@Path("type") Boolean type,@Query("page") Integer page, @Query("count") Integer count);
+
+    @GET("/entries/{id}")
+    Call<Entry> getEntryById(@Path("id") Long id);
 }
 

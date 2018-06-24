@@ -9,9 +9,11 @@ import android.view.View;
 
 import com.anti.drama.mybookkeeper.Activities.Account.LoginActivity;
 import com.anti.drama.mybookkeeper.Activities.Base.BaseActivity;
+import com.anti.drama.mybookkeeper.Models.Entry;
 import com.anti.drama.mybookkeeper.Models.TokenModel;
 
 import com.anti.drama.mybookkeeper.R;
+import com.anti.drama.mybookkeeper.WebServices.MyCallback;
 
 public class MainActivity extends BaseActivity {
 
@@ -89,6 +91,19 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onError(Throwable error) {
                 System.out.println("Error: " + error);
+            }
+        });*/
+
+        /*getEntryController().getEntryById(1L, new MyCallback<Entry>() {
+            @Override
+            public Entry onResponse(Entry response) {
+                System.out.println("Success Entry: " + response);
+                return null;
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                System.out.println("Error Entry: " + error);
             }
         });*/
 

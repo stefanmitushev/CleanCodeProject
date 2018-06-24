@@ -1,5 +1,7 @@
 package com.anti.drama.mybookkeeper.Controllers;
 
+import android.support.annotation.NonNull;
+
 import com.anti.drama.mybookkeeper.Models.Entry;
 import com.anti.drama.mybookkeeper.WebServices.MyCallback;
 import com.anti.drama.mybookkeeper.WebServices.RestClient;
@@ -13,6 +15,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -46,7 +49,7 @@ public class EntryController {
         Call<Entry> addEntryCall = restClient.addEntry(entry);
         addEntryCall.enqueue(new retrofit2.Callback<Entry>() {
             @Override
-            public void onResponse(Call<Entry> call, Response<Entry> response) {
+            public void onResponse(@NonNull Call<Entry> call, @NonNull Response<Entry> response) {
                 if(response.isSuccessful()){
                     callback.onResponse(response.body());
                 }else{
@@ -71,7 +74,7 @@ public class EntryController {
         Call<List<Entry>> entriesCall = restClient.getAllEntriesByUserWithType(userId,type,page,count);
         entriesCall.enqueue(new retrofit2.Callback<List<Entry>>() {
             @Override
-            public void onResponse(Call<List<Entry>> call, Response<List<Entry>> response) {
+            public void onResponse(@NonNull Call<List<Entry>> call, @NonNull Response<List<Entry>> response) {
                 if(response.isSuccessful()){
                     callback.onResponse(response.body());
                 }else{
@@ -95,7 +98,7 @@ public class EntryController {
         Call<List<Entry>> entriesCall = restClient.getAllEntriesByCurrentUserWithType(type,page,count);
         entriesCall.enqueue(new retrofit2.Callback<List<Entry>>() {
             @Override
-            public void onResponse(Call<List<Entry>> call, Response<List<Entry>> response) {
+            public void onResponse(@NonNull Call<List<Entry>> call, @NonNull Response<List<Entry>> response) {
                 if(response.isSuccessful()){
                     callback.onResponse(response.body());
                 }else{
@@ -122,7 +125,7 @@ public class EntryController {
 
         sumCall.enqueue(new retrofit2.Callback<Double>() {
             @Override
-            public void onResponse(Call<Double> call, Response<Double> response) {
+            public void onResponse(@NonNull Call<Double> call, @NonNull Response<Double> response) {
                 if(response.isSuccessful()){
                     callback.onResponse(response.body());
                 }else{
@@ -138,6 +141,32 @@ public class EntryController {
 
             @Override
             public void onFailure(Call<Double> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void getEntryById(Long id, final MyCallback<Entry> callback){
+        Call<Entry> entryCall = restClient.getEntryById(id);
+
+        entryCall.enqueue(new retrofit2.Callback<Entry>() {
+            @Override
+            public void onResponse(@NonNull Call<Entry> call, @NonNull Response<Entry> response) {
+                if(response.isSuccessful()){
+                    callback.onResponse(response.body());
+                }else{
+                    try {
+                        callback.onError(new Throwable(response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        callback.onError(e);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Entry> call, Throwable t) {
                 callback.onError(t);
             }
         });
