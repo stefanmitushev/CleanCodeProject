@@ -34,11 +34,14 @@
         <activity
             android:name=".Activities.Account.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.Account.SignupActivity"
             android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.Entry.AddEntryActivity"
+            android:label="@string/title_activity_add_entry"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

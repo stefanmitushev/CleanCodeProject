@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
         });
         //userController.getCurrentLoggedUser();
 
-        getEntryController().getAllEntriesByUserWithType(3L, true, 0, 10, new MyCallback<List<Entry>>() {
+        /*getEntryController().getAllEntriesByUserWithType(3L, true, 0, 10, new MyCallback<List<Entry>>() {
             @Override
             public List<Entry> onResponse(List<Entry> response) {
                 System.out.println("Entries: " + response);
@@ -94,7 +94,9 @@ public class MainActivity extends BaseActivity {
             public void onError(Throwable error) {
                 System.out.println("Error: " + error);
             }
-        });
+        });*/
+
+        startActivity(new Intent(this,AddEntryActivity.class));
     }
 
     @Override
