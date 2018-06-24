@@ -1,13 +1,11 @@
 package com.anti.drama.mybookkeeper.Activities.Base;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 
 import com.anti.drama.mybookkeeper.Activities.Account.LoginActivity;
 
-/**
- * Created by root on 6/24/18.
- */
-
+@SuppressLint("Registered")
 public class AuthorizeActivity extends BaseActivity {
 
     @Override

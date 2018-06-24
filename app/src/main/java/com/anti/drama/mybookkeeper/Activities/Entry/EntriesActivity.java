@@ -11,6 +11,7 @@ import com.anti.drama.mybookkeeper.R;
 
 public class EntriesActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
