@@ -1,6 +1,7 @@
 package com.anti.drama.mybookkeeper.Adapter;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -32,16 +33,17 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
         return entries;
     }
 
-    public void setEntries(List<Entry> entries) {
-        this.entries = entries;
+    public void addEntries(List<Entry> entries) {
+        int size = this.entries.size();
+        this.entries.addAll(entries);
+        notifyItemInserted(size);
     }
     public void addEntry(Entry model){
         if(this.entries == null){
             this.entries = new ArrayList<>();
         }
-        int size = entries.size();
         this.entries.add(model);
-        notifyItemInserted(size);
+        notifyItemInserted(entries.size() -1);
     }
 
     public void setEntryClickListener(EntryClickListener entryClickListener){
@@ -67,6 +69,9 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
                 entryClickListener.onClick(entries.get(i).getId());
             }
         });
+        if(!entries.get(i).getType()){
+            viewHolder.entryValue.setTextColor(Color.GREEN);
+        }
     }
 
     @Override

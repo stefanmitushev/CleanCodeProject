@@ -42,7 +42,6 @@ public class EntriesActivity extends BaseActivity {
             public void onClick(Long id) {
                 Intent intent = new Intent(EntriesActivity.this, SingleEntryActivity.class);
                 intent.putExtra("ENTRY_ID", id);
-                finish();
                 startActivity(intent);
             }
         });
@@ -56,10 +55,10 @@ public class EntriesActivity extends BaseActivity {
 
         getEntryController().getAllEntriesByCurrentUserWithType(false, 0, 10, new MyCallback<List<Entry>>() {
             @Override
-            public List<Entry> onResponse(List<Entry> respoonse) {
-                entries.addAll(respoonse);
-                entryAdapter.setEntries(entries);
-                return respoonse;
+            public List<Entry> onResponse(List<Entry> response) {
+                entries.addAll(response);
+                entryAdapter.addEntries(entries);
+                return response;
             }
 
             @Override
